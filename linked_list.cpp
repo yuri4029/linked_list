@@ -37,8 +37,8 @@ void print_list(Node *head_ref)
 
 void print_list_1(Node **head_ref)
 {
-    Node* temp = *head_ref; 
-    
+    Node *temp = *head_ref;
+
     while (temp != nullptr)
     {
         std::cout << temp->data << " ";
@@ -46,20 +46,21 @@ void print_list_1(Node **head_ref)
     }
 }
 
-int countNodes(Node* head){
-    int count =0;
-    Node* temp = head;
-    while(temp!=nullptr){
+int countNodes(Node *head)
+{
+    int count = 0;
+    Node *temp = head;
+    while (temp != nullptr)
+    {
         count++;
         temp = temp->next;
     }
     return count;
 }
 
-
 void insert_last(Node *&head, int data)
 {
-    //Node* newNode = createNode(data);
+    // Node* newNode = createNode(data);
     Node *newNode = new Node();
     if (head == nullptr)
     {
@@ -79,67 +80,114 @@ void insert_last_1(Node **head_ref, int new_data)
     Node *new_node = new Node();
     new_node->data = new_data;
     new_node->next = nullptr;
-    if (*head_ref == nullptr) {
+    if (*head_ref == nullptr)
+    {
         *head_ref = new_node;
         return;
     }
     Node *last = *head_ref; // Used to traverse to the end of the list
-    while (last->next != nullptr) {
+    while (last->next != nullptr)
+    {
         last = last->next;
     }
     last->next = new_node;
 }
 
-void insert_at(Node** head,int pos, int new_data){
-    Node* newNode = new Node();
+void insert_at(Node **head, int pos, int new_data)
+{
+    Node *newNode = new Node();
     newNode->data = new_data;
     newNode->next = nullptr;
 
-    if (pos==0){
+    if (pos == 0)
+    {
         newNode->next = *head;
-        *head= newNode;
+        *head = newNode;
         return;
     }
 
-    Node* temp = *head;
+    Node *temp = *head;
 
-    
-
-    for (int i = 0; temp != nullptr && i < pos - 1; i++) {
+    for (int i = 0; temp != nullptr && i < pos - 1; i++)
+    {
         temp = temp->next;
-         //cout<<temp->data<<endl;
-         //cout<<i<<endl;
     }
-    if (temp == nullptr) {
+    if (temp == nullptr)
+    {
         cout << "Position out of range" << endl;
         return;
-    } 
-    
+    }
+
     newNode->next = temp->next;
     temp->next = newNode;
+}
+
+void delete_first(Node **head)
+{
+    if (head == nullptr)
+    {
+        cout << "Empty list" << endl;
+        return;
+    }
+
+    Node *temp = *head;
+    *head = temp->next; // nullptr
+    delete temp;
+}
+
+void delete_from_head(Node **head, int pos)
+{
+    if (head == nullptr)
+    {
+        cout << "Empty list" << endl;
+        return;
+    }
+    Node *temp = *head;
+    for (int i = 0; temp != nullptr && i < pos - 1; i++)
+    {
+        temp = temp->next;
+    }
+    if (temp == nullptr || temp->next == nullptr)
+    {
+        cout << "Position out of range" << endl;
+        return;
+    }
+    Node *next = temp->next->next;
+    delete temp->next;
+    temp->next = next;
 }
 
 int main()
 {
 
     Node *head = nullptr;
-    
-    
-    insert_at(&head,0,4);
+
+    insert_at(&head, 0, 4);
     insert_first(&head, 3);
     insert_first(&head, 2);
     insert_first(&head, 1);
 
-    print_list(head);cout<<endl;
+    print_list(head);
+    cout << endl;
 
-    insert_at(&head,3,13);
-    insert_at(&head,1,11);
+    insert_at(&head, 3, 13);
+    insert_at(&head, 1, 11);
 
-    //print_list_1(&head);cout<<endl;
-    
+    // print_list_1(&head);cout<<endl;
 
-    print_list(head);cout<<endl;
-    cout<<"amout:"<<countNodes(head);
+    print_list(head);
+    cout << endl;
+    cout << "amout:" << countNodes(head) << endl;
+
+    delete_first(&head);
+    print_list(head);
+    cout << endl;
+    cout << "amout:" << countNodes(head) << endl;
+
+    delete_from_head(&head, 1);
+    print_list(head);
+    cout << endl;
+    cout << "amout:" << countNodes(head) << endl;
 
     return 0;
 }
