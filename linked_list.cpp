@@ -130,13 +130,14 @@ void delete_first(Node **head)
         return;
     }
 
-    Node *temp = *head;
-    *head = temp->next; // nullptr
+    Node *temp = *head; // nullptr
+    *head = temp->next;
     delete temp;
 }
 
 void delete_from_head(Node **head, int pos)
 {
+
     if (head == nullptr)
     {
         cout << "Empty list" << endl;
@@ -156,6 +157,116 @@ void delete_from_head(Node **head, int pos)
     delete temp->next;
     temp->next = next;
 }
+
+Node *delete_return_head(Node **head, int pos)
+{
+
+    if (head == nullptr)
+    {
+        cout << "Empty list" << endl;
+        return *head;
+    }
+    // delete head
+    if (pos == 0)
+    {
+
+        Node *del_first = *head;
+        *head = del_first->next;
+        delete del_first;
+
+        return *head;
+    }
+
+    Node *temp = *head;
+
+    for (int i = 0; temp != nullptr && i < pos - 1; i++)
+    {
+        temp = temp->next;
+    }
+    if (temp == nullptr || temp->next == nullptr)
+    {
+        cout << "Position out of range" << endl;
+        return *head;
+    }
+
+    Node *del_node = temp->next->next;
+    delete temp->next;
+    temp->next = del_node;
+
+    return *head;
+}
+
+Node *delete_from_back_return_head_(Node **head, int pos)
+{
+
+    int count = 0;
+    Node *point_cnt = *head;
+    while (point_cnt != nullptr)
+    {
+        count++;
+        point_cnt = point_cnt->next;
+    }
+
+    if (head == nullptr)
+    {
+        cout << "Empty list" << endl;
+        return *head;
+    }
+
+ 
+    if (pos == 0)
+    {
+
+        Node *del_first = *head;
+        *head = del_first->next;
+        delete del_first;
+        return *head;
+    }
+
+    Node *temp = *head;
+    for (int i = 0; temp != nullptr && i < (count-pos) - 1; i++)
+    {
+        temp = temp->next;
+    }
+    if (temp == nullptr || temp->next == nullptr)
+    {
+        cout << "Position out of range" << endl;
+        return *head;
+    }
+
+    Node *del_node = temp->next->next;
+    delete temp->next;
+    temp->next = del_node;
+
+    return *head;
+}
+
+/*
+Node* delete_return_n_th(Node** head,int pos){
+
+    if (head == nullptr)
+    {
+        cout << "Empty list" << endl;
+        return *head;
+    }
+    Node *temp = *head;
+    for (int i = 0; temp != nullptr && i < pos - 1; i++)
+    {
+        temp = temp->next;
+    }
+    if (temp == nullptr || temp->next == nullptr)
+    {
+        cout << "Position out of range" << endl;
+        return *head;
+    }
+
+    Node *del_node = temp->next->next;
+    delete temp->next;
+    temp->next = del_node;
+
+    return del_node;
+}
+*/
 
 int main()
 {
@@ -184,7 +295,11 @@ int main()
     cout << endl;
     cout << "amout:" << countNodes(head) << endl;
 
-    delete_from_head(&head, 1);
+    // delete_from_head(&head, 1);
+    cout << "delete return " << endl;
+    //head = delete_return_head(&head, 0);
+
+    head= delete_from_back_return_head_(&head, 2);
     print_list(head);
     cout << endl;
     cout << "amout:" << countNodes(head) << endl;
