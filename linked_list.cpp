@@ -178,7 +178,10 @@ Node *delete_return_head(Node **head, int pos)
     }
 
     Node *temp = *head;
-
+    /*
+        pos [1:n]
+        
+    */
     for (int i = 0; temp != nullptr && i < pos - 1; i++)
     {
         temp = temp->next;
@@ -213,7 +216,6 @@ Node *delete_from_back_return_head_(Node **head, int pos)
         return *head;
     }
 
- 
     if (pos == 0)
     {
 
@@ -224,7 +226,7 @@ Node *delete_from_back_return_head_(Node **head, int pos)
     }
 
     Node *temp = *head;
-    for (int i = 0; temp != nullptr && i < (count-pos) - 1; i++)
+    for (int i = 0; temp != nullptr && i < (count - pos) - 1; i++)
     {
         temp = temp->next;
     }
@@ -241,26 +243,31 @@ Node *delete_from_back_return_head_(Node **head, int pos)
     return *head;
 }
 
-Node* deleteNthFromEnd(Node* head, int n) {
+Node *deleteNthFromEnd(Node *head, int n)
+{
     Node *fast = head, *slow = head;
-    for (int i = 0; i < n; i++) {
-        if (fast == nullptr) return head; // n is greater than the length of the list
+    for (int i = 0; i < n; i++)
+    {
+        if (fast == nullptr)
+            return head; // n is greater than the length of the list
         fast = fast->next;
     }
 
-    if (fast == nullptr) {
-        Node* temp = head;
+    if (fast == nullptr)
+    {
+        Node *temp = head;
         head = head->next;
         delete temp;
         return head;
     }
 
-    while (fast->next != nullptr) {
+    while (fast->next != nullptr)
+    {
         fast = fast->next;
         slow = slow->next;
     }
 
-    Node* temp = slow->next;
+    Node *temp = slow->next;
     slow->next = slow->next->next;
     delete temp;
 
@@ -299,11 +306,10 @@ int main()
 
     Node *head = nullptr;
 
-    insert_at(&head, 0, 4);
-    insert_first(&head, 3);
-    insert_first(&head, 2);
-    insert_first(&head, 1);
-
+    for (int ith = 1; ith < 11; ith++)
+    {
+        insert_first(&head, ith);
+    }
     print_list(head);
     cout << endl;
 
@@ -323,9 +329,9 @@ int main()
 
     // delete_from_head(&head, 1);
     cout << "delete return " << endl;
-    //head = delete_return_head(&head, 0);
-
-    head= delete_from_back_return_head_(&head, 2);
+    // head = delete_return_head(&head, 0);
+    // head = delete_from_back_return_head_(&head, 2);
+    head = deleteNthFromEnd(head,  2);
     print_list(head);
     cout << endl;
     cout << "amout:" << countNodes(head) << endl;
